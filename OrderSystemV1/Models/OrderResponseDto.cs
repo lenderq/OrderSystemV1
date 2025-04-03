@@ -7,5 +7,6 @@
         public DateTime OrderDate { get; set; }
         public string Status { get; set; }
         public int ClientId { get; set; }
+        public string ClientName { get; set; }
     }
 }

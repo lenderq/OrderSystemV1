@@ -20,38 +20,75 @@ namespace OrderSystemV1.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllOrders()
+        public IActionResult GetAllOrders(
+            [FromQuery] decimal? minAmount,
+            [FromQuery] decimal? maxAmount,
+            [FromQuery] DateTime? startDate,
+            [FromQuery] DateTime? endDate,
+            [FromQuery] string? status,
+            [FromQuery] int? clientId,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10)
         {
-            var allOrders = dbContext.Orders
-                .Select(o => new OrderResponseDto()
-                {
-                    Id = o.Id,
-                    Amount = o.Amount,
-                    OrderDate = o.OrderDate,
-                    Status = o.Status.ToString(),
-                    ClientId = o.ClientId
-                })
-                .ToList();
+            var query = dbContext.Orders.AsQueryable();
 
-            return Ok(allOrders);
+            if (minAmount.HasValue)
+                query = query.Where(o => o.Amount >= minAmount);
+
+            if (maxAmount.HasValue)
+                query = query.Where(o => o.Amount <= maxAmount);
+
+            if (startDate.HasValue)
+                query = query.Where(o => o.OrderDate >= startDate);
+
+            if (endDate.HasValue)
+                query = query.Where(o => o.OrderDate <= endDate);
+
+            if (!string.IsNullOrEmpty(status))
+                query = query.Where(o => o.Status.ToString() == status);
+
+            if (clientId.HasValue)
+                query = query.Where(o => o.ClientId == clientId);
+
+            var totalCount = query.Count();
+
+            var orders = query.Include(o => o.Client).Skip((page - 1) * pageSize).Take(pageSize).Select(o => new OrderResponseDto
+            {
+                Id = o.Id,
+                Amount = o.Amount,
+                OrderDate = o.OrderDate,
+                Status = o.Status.ToString(),
+                ClientId = o.ClientId,
+                ClientName = $"{o.Client.FirstName} {o.Client.LastName}",
+            }).ToList();
+
+            var result = new
+            {
+                TotalCount = totalCount,
+                Page = page,
+                PageSize = pageSize,
+                Items = orders
+            };
+
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetOrder(int id)
         {
-            var order = dbContext.Orders.Find(id);
+            var order = dbContext.Orders.Where(o => o.Id == id).Select(o => new OrderResponseDto
+            {
+                Id = o.Id,
+                Amount = o.Amount,
+                OrderDate = o.OrderDate,
+                Status = o.Status.ToString(),
+                ClientId = o.ClientId,
+                ClientName = $"{o.Client.FirstName} {o.Client.LastName}"
+            }).FirstOrDefault();
 
             if (order == null) return NotFound();
 
-            var response = new OrderResponseDto()
-            {
-                Id = order.Id,
-                Amount = order.Amount,
-                OrderDate = order.OrderDate,
-                Status = order.Status.ToString(),
-                ClientId = order.ClientId
-            };
-            return Ok(response);
+            return Ok(order);
         }
 
         [HttpPost]

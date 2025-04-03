@@ -19,28 +19,65 @@ namespace OrderSystemV1.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllClients()
+        public IActionResult GetAllClients(
+            [FromQuery] string? firstName,
+            [FromQuery] string? lastName,
+            [FromQuery] DateTime? birthDateFrom,
+            [FromQuery] DateTime? birthDateTo,
+            [FromQuery] int page = 1,
+            [FromQuery] int pageSize = 10)
         {
-            var allClients = dbContext.Clients.ToList();
-            return Ok(allClients);
+            var query = dbContext.Clients.AsQueryable();
+
+            if (!string.IsNullOrEmpty(firstName))
+                query = query.Where(c => c.FirstName.Contains(firstName));
+
+            if (!string.IsNullOrEmpty(lastName))
+                query = query.Where(c => c.LastName.Contains(lastName));
+
+            if (birthDateFrom.HasValue)
+                query = query.Where(c => c.BirthDate >= birthDateFrom);
+
+            if (birthDateTo.HasValue)
+                query = query.Where(c=> c.BirthDate <= birthDateTo);
+
+            var totalCount = query.Count();
+            var clients = query.Skip((page - 1)* pageSize).Take(pageSize).Select(c=> new ClientResponseDto()
+            {
+                Id = c.Id,
+                FirstName = c.FirstName,
+                LastName = c.LastName,
+                BirthDate = c.BirthDate,
+                OrderCount = c.Orders.Count()
+                
+            }).ToList();
+
+            var result = new
+            {
+                TotalCount = totalCount,
+                Page = page,
+                PageSize = pageSize,
+                Items = clients
+            };
+
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
         public IActionResult GetClient(int id)
         {
-            var client = dbContext.Clients.Find(id);
+            var client = dbContext.Clients.Where(c => c.Id == id).Select(c => new ClientResponseDto()
+            {
+                Id = c.Id,
+                FirstName = c.FirstName,
+                LastName = c.LastName,
+                BirthDate= c.BirthDate,
+                OrderCount = c.Orders.Count()
+            }).FirstOrDefault();
 
             if (client == null) return NotFound();
 
-            var response = new ClientResponseDto()
-            {
-                Id = client.Id,
-                FirstName = client.FirstName,
-                LastName = client.LastName,
-                BirthDate = client.BirthDate,
-            };
-
-            return Ok(response);
+            return Ok(client);
         }
 
         [HttpPost]
@@ -132,5 +169,6 @@ namespace OrderSystemV1.Controllers
 
             return NoContent();
         }
+
     }
 }

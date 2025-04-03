@@ -8,6 +8,6 @@ namespace OrderSystemV1.Models
         public int ClientId { get; set; }
 
         [Column("total_amount")]
-        public decimal TatotalAmount { get; set; }
+        public decimal TotalAmount { get; set; }
     }
 }
