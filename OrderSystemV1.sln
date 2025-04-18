@@ -3,9 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34408.163
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderSystemV1", "OrderSystemV1\OrderSystemV1.csproj", "{B3CCFA71-0FF8-44C0-8E4D-DD430F46247F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderSystemV1", "OrderSystemV1\OrderSystemV1.csproj", "{B3CCFA71-0FF8-44C0-8E4D-DD430F46247F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestControllers", "TestControllers\TestControllers.csproj", "{D4FB8434-571A-45E1-8A58-7141C4256060}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestControllers", "TestControllers\TestControllers.csproj", "{D4FB8434-571A-45E1-8A58-7141C4256060}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{BBD534F7-78F8-4606-9D46-C257E10208B3}"
+	ProjectSection(SolutionItems) = preProject
+		.gitlab-ci.yml = .gitlab-ci.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -4,30 +4,39 @@ stages:
   - deploy
 
 variables:
-  DOTNET_CLI_TELEMETRY_OPTOUT: 1
-  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
-
-before_script:
-  - 'dotnet --version'
+  PROJECT_NAME: "OrderSystemV1"
+  DOCKER_HOST: "tcp://docker:2375"  
 
 build:
   stage: build
+  image: mcr.microsoft.com/dotnet/sdk:8.0
   script:
     - dotnet restore
     - dotnet build --configuration Release
-  tags:
-    - docker
+  artifacts:
+    paths:
+      - $PROJECT_NAME/bin/Release/net8.0/
 
 test:
   stage: test
+  image: mcr.microsoft.com/dotnet/sdk:8.0
+  services:
+    - postgres:latest
+  variables:
+    POSTGRES_DB: "OrderSystem"
+    POSTGRES_USER: "postgres"
+    POSTGRES_PASSWORD: "postgres"
+    ConnectionStrings__DefaultConnection: "Host=localhost;Port=5432;Database=clientsorders;Username=postgres;Password=123456789"
   script:
-    - dotnet test
-  tags:
-    - docker
+    - dotnet test --no-build --verbosity normal
 
 deploy:
   stage: deploy
+  image: docker:latest
+  services:
+    - docker:dind
   script:
-    - echo "Здесь будет деплой. Пока просто заглушка."
-  tags:
-    - docker
+    - docker build -t ordersystem .
+    - docker run -d -p 5000:8080 --name ordersystem_app ordersystem
+  only:
+    - main
