@@ -20,7 +20,7 @@ build:
 test:
   stage: test
   script:
-    - dotnet test --no-build --verbosity normal
+    - dotnet test TestControllers/TestControllers.csproj --no-build --verbosity normal
 
 deploy:
   stage: deploy
