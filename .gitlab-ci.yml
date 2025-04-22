@@ -1,0 +1,28 @@
+image: mcr.microsoft.com/dotnet/sdk:8.0
+
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+
+before_script:
+  - export PATH="$PATH:/root/.dotnet/tools"
+  - dotnet restore
+
+build:
+  stage: build
+  script:
+    - dotnet build --configuration Release
+
+test:
+  stage: test
+  script:
+    - dotnet test --no-build --verbosity normal
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploy stage"

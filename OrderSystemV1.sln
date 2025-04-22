@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34408.163
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrderSystemV1", "OrderSystemV1\OrderSystemV1.csproj", "{B3CCFA71-0FF8-44C0-8E4D-DD430F46247F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestControllers", "TestControllers\TestControllers.csproj", "{D4FB8434-571A-45E1-8A58-7141C4256060}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{59798B94-D8FF-4AB4-8229-A0EF51E2C794}"
+	ProjectSection(SolutionItems) = preProject
+		.gitlab-ci.yml = .gitlab-ci.yml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B3CCFA71-0FF8-44C0-8E4D-DD430F46247F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3CCFA71-0FF8-44C0-8E4D-DD430F46247F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3CCFA71-0FF8-44C0-8E4D-DD430F46247F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3CCFA71-0FF8-44C0-8E4D-DD430F46247F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4FB8434-571A-45E1-8A58-7141C4256060}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4FB8434-571A-45E1-8A58-7141C4256060}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4FB8434-571A-45E1-8A58-7141C4256060}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4FB8434-571A-45E1-8A58-7141C4256060}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C83C8B6A-56A6-48A3-A13D-9E4C7B166BA3}
+	EndGlobalSection
+EndGlobal
