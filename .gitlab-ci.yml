@@ -26,5 +26,5 @@ deploy:
     DOCKER_HOST: unix:///var/run/docker.sock  
   script:
     - docker rm -f ordersystem-app || true
-    - docker build -t ordersystem-app -f OrderSystemV1/OrderSystemV1/Dockerfile OrderSystemV1/OrderSystemV1
+    - docker build -t ordersystem-app -f OrderSystemV1/Dockerfile OrderSystemV1
     - docker run -d -p 5000:80 --name ordersystem-app ordersystem-app
