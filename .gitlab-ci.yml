@@ -12,10 +12,6 @@ stages:
   - test
   - deploy
 
-before_script:
-  - apk add --no-cache curl
-  - docker info
-
 build:
   stage: build
   image: mcr.microsoft.com/dotnet/sdk:8.0
