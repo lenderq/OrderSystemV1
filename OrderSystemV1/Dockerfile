@@ -9,7 +9,7 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["OrderSystemV1/OrderSystemV1.csproj", "OrderSystemV1/"]
+COPY ["OrderSystemV1.csproj", "OrderSystemV1/"]
 RUN dotnet restore "./OrderSystemV1/./OrderSystemV1.csproj"
 COPY . .
 WORKDIR "/src/OrderSystemV1"
