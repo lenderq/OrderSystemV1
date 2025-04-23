@@ -365,14 +365,3 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-gitlab/data/
-gitlab/logs/
-gitlab/config/ssl/
-gitlab/config/*.key
-gitlab/config/*.pub
-
-gitlab/**
-!gitlab/config/
-!gitlab/config/gitlab.rb
-!gitlab/config/gitlab-secrets.json
-
