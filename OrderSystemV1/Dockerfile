@@ -13,13 +13,9 @@ COPY ["OrderSystemV1.csproj", "OrderSystemV1/"]
 RUN dotnet restore "./OrderSystemV1/./OrderSystemV1.csproj"
 COPY . .
 WORKDIR "/src/OrderSystemV1"
-RUN dotnet build "./OrderSystemV1.csproj" -c $BUILD_CONFIGURATION -o /app/build
-
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./OrderSystemV1.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "OrderSystemV1.dll"]
